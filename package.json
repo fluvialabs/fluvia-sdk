@@ -64,5 +64,13 @@
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "typescript": "^7.0.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fluvialabs/fluvia-sdk.git"
+  },
+  "homepage": "https://github.com/fluvialabs/fluvia-sdk#readme",
+  "bugs": {
+    "url": "https://github.com/fluvialabs/fluvia-sdk/issues"
   }
 }

@@ -65,9 +65,8 @@ connectButton.addEventListener('click', async () => {
 });
 ```
 
-> [!IMPORTANT]
-> Methods that open Fluvia must be called from a user gesture (click or tap) before any other
-> `await`. Browsers block popups opened outside a user gesture.
+> **Important:** methods that open Fluvia must be called from a user gesture (click or tap) before
+> any other `await`. Browsers block popups opened outside a user gesture.
 
 ## Integrations
 
@@ -168,13 +167,14 @@ For other frameworks, `createFluviaStore(client)` exposes the same state through
 | `getActiveNetwork()` | No | `{ networkId }` |
 | `listAccounts()` | No | `Account[]` |
 | `getPrimaryAccount()` | No | `Account` |
-| `signMessage(message)` | Yes | Base64 Ed25519 signature over the UTF-8 message |
+| `signMessage(message)` | Yes | Base64 Ed25519 signature over the UTF-8 message. Messages of exactly 32 or 34 bytes are refused |
 | `prepareExecute(params)` | Yes | `null` once executed; the `updateId` is emitted on `txChanged` |
 | `prepareExecuteAndWait(params)` | Yes | `{ tx }`, with `tx.payload.updateId` |
 | `ledgerApi({ requestMethod, resource, body? })` | Yes | `{ response }` (JSON string) |
 | `on(event, listener)` | No | Unsubscribe function |
 
-`disconnect()` clears the session in the dApp only. Users revoke a site's access from Fluvia.
+`disconnect()` clears the session in the dApp only. Users revoke a site's access in Fluvia under
+**Settings → Security → Connected sites**.
 
 `client.provider` is the underlying CIP-0103 provider (`request`, `on`, `removeListener`, `emit`)
 for libraries that expect one.
@@ -269,6 +269,9 @@ so the adapter and the rest of the dApp share one session.
 
 Only Canton mainnet (`canton:da-mainnet`) is supported.
 
+Your dApp must be served over HTTPS. Fluvia refuses plain HTTP sites, except on the developer's own
+machine.
+
 ## Development
 
 Requires Node.js 22.18 or newer.
@@ -281,8 +284,24 @@ npm run build
 
 ## Security
 
-Do not report vulnerabilities in public issues. Use the repository's private vulnerability
-reporting under **Security → Report a vulnerability**.
+### For dApp developers
+
+- The session is stored in your dApp's own storage, so `getPrimaryAccount()` and `status()` are
+  not proof of identity. To sign users in:
+  1. Have them sign a readable message containing a one-time nonce from your server, such as
+     `Sign in to example.com\nNonce: <nonce>`.
+  2. On your server, check that `publicKey` belongs to `partyId`: the part after `::` must equal
+     `1220` + hex(SHA-256(`0000000c` + raw public key bytes)). A client can send any key.
+  3. Verify the signature against that `publicKey`.
+- Fluvia refuses to sign messages of exactly 32 or 34 bytes, the sizes of Canton hashes, so a
+  signature on a message can never authorize a transaction.
+- Every transaction and signature is approved by the user in Fluvia. Your dApp never receives
+  keys.
+
+### Reporting a vulnerability
+
+Do not open a public issue. Report it privately at
+[github.com/fluvialabs/fluvia-sdk/security/advisories/new](https://github.com/fluvialabs/fluvia-sdk/security/advisories/new).
 
 ## License
 
