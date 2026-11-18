@@ -1,6 +1,6 @@
 {
   "name": "@fluvia-labs/sdk",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Connect a Canton dApp to the Fluvia wallet over CIP-0103. No extension: works on desktop and mobile.",
   "type": "module",
   "license": "Apache-2.0",
