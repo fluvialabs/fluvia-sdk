@@ -12,6 +12,7 @@ Fluvia in a popup on desktop or a new tab on mobile, and the window closes once 
 
 ## Features
 
+- No browser extension: works in desktop and mobile browsers
 - CIP-0103 provider and a typed client for every method and event
 - Adapters for the Canton dApp SDK (`@canton-network/dapp-sdk`) and PartyLayer
 - React provider and hooks
