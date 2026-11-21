@@ -1,0 +1,68 @@
+{
+  "name": "@fluvia-labs/sdk",
+  "version": "0.1.0",
+  "description": "Connect a Canton dApp to the Fluvia wallet over CIP-0103. No extension: works on desktop and mobile.",
+  "type": "module",
+  "license": "Apache-2.0",
+  "keywords": [
+    "canton",
+    "cip-0103",
+    "wallet",
+    "fluvia",
+    "dapp"
+  ],
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./adapter": {
+      "types": "./dist/adapter.d.ts",
+      "default": "./dist/adapter.js"
+    },
+    "./partylayer": {
+      "types": "./dist/partylayer.d.ts",
+      "default": "./dist/partylayer.js"
+    },
+    "./react": {
+      "types": "./dist/react.d.ts",
+      "default": "./dist/react.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=22.18"
+  },
+  "scripts": {
+    "build": "rm -rf dist && tsc",
+    "test": "node --test --test-timeout=10000 test/*.test.ts",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build && npm test"
+  },
+  "peerDependencies": {
+    "@partylayer/core": ">=0.14",
+    "react": ">=18"
+  },
+  "peerDependenciesMeta": {
+    "@partylayer/core": {
+      "optional": true
+    },
+    "react": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@partylayer/core": "^0.14.0",
+    "@types/react": "^19.3.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "typescript": "^7.0.2"
+  }
+}
